@@ -1,0 +1,389 @@
+¿Qué es un puntero?
+
+En C, un puntero es una variable que almacena la dirección de memoria de otra variable. En lugar de almacenar un valor directo, como lo hacen las variables comunes, un puntero almacena la dirección donde se encuentra ese valor en memoria.
+
+Sintaxis de un puntero
+
+La sintaxis para declarar un puntero es:
+
+tipo *nombre_del_puntero;
+
+tipo: Es el tipo de datos de la variable a la que el puntero apunta (por ejemplo, int, float, char).
+
+*: El asterisco indica que la variable es un puntero.
+
+nombre_del_puntero: El nombre del puntero.
+
+Ejemplo:
+
+int *ptr;
+
+Aquí, ptr es un puntero que puede almacenar la dirección de una variable de tipo int.
+
+Declaración y asignación de punteros
+
+Declaración de un puntero:
+
+int *ptr;
+
+Esto declara ptr como un puntero a un entero (int).
+
+Asignación de un puntero:
+Para asignar una dirección de memoria a un puntero, usamos el operador de referencia &, que devuelve la dirección de memoria de una variable.
+
+Ejemplo:
+
+int var = 10;
+int *ptr = &var; // ptr ahora almacena la dirección de var
+
+Aquí, ptr almacena la dirección de memoria de la variable var.
+
+Operadores con punteros
+
+Operador & (Dirección de): Este operador obtiene la dirección de una variable. Es decir, da la "dirección de memoria" de la variable.
+
+Ejemplo:
+
+int x = 5;
+int *p = &x; // p almacena la dirección de x
+
+Operador * (Desreferenciación): Este operador se usa para acceder al valor que está almacenado en la dirección de memoria a la que apunta el puntero.
+
+Ejemplo:
+
+int x = 5;
+int *p = &x; // p apunta a x
+printf("%d\n", *p); // Desreferenciación: imprime 5, que es el valor de x
+
+Aquí, *p devuelve el valor almacenado en la dirección a la que p apunta, que es 5.
+
+
+Ejemplo básico de punteros
+
+Veamos un ejemplo completo para entender cómo funcionan:
+
+#include <stdio.h>
+
+int main() {
+    int var = 10;
+    int *ptr = &var;  // ptr apunta a la dirección de memoria de var
+
+    printf("Valor de var: %d\n", var);       // Imprime 10
+    printf("Dirección de var: %p\n", &var);  // Imprime la dirección de var
+    printf("Valor almacenado en ptr: %p\n", ptr);  // Imprime la dirección almacenada en ptr (la dirección de var)
+    printf("Valor apuntado por ptr: %d\n", *ptr);  // Imprime 10, que es el valor apuntado por ptr (el valor de var)
+
+    return 0;
+}
+¿Qué se imprime?
+
+Valor de var: Se imprime el valor 10 de la variable var.
+
+Dirección de var: Imprime la dirección de memoria de var.
+
+Valor almacenado en ptr: Imprime la dirección de memoria que contiene ptr, que es la dirección de var.
+
+Valor apuntado por ptr: Imprime el valor de var, que es 10, porque ptr apunta a var.
+
+Punteros a arrays
+
+En C, los arrays y los punteros están estrechamente relacionados. Un puntero a un array es simplemente un puntero a su primer elemento. Veamos cómo funciona:
+
+#include <stdio.h>
+
+int main() {
+    int arr[3] = {1, 2, 3};
+    int *ptr = arr;  // ptr apunta al primer elemento de arr
+
+    printf("Primer elemento del array: %d\n", *ptr); // Imprime 1
+    printf("Segundo elemento del array: %d\n", *(ptr + 1)); // Imprime 2
+    printf("Tercer elemento del array: %d\n", *(ptr + 2)); // Imprime 3
+
+    return 0;
+}
+Punteros a estructuras
+
+Los punteros también pueden apuntar a estructuras. Para acceder a los miembros de una estructura a través de un puntero, usamos el operador ->.
+
+#include <stdio.h>
+
+struct Persona {
+    char nombre[50];
+    int edad;
+};
+
+int main() {
+    struct Persona p1 = {"Juan", 25};
+    struct Persona *ptr = &p1;
+
+    printf("Nombre: %s\n", ptr->nombre); // Acceso al miembro nombre usando el puntero
+    printf("Edad: %d\n", ptr->edad);     // Acceso al miembro edad usando el puntero
+
+    return 0;
+}
+Punteros y funciones
+
+En C, puedes pasar punteros a funciones. Esto te permite modificar el valor de las variables directamente desde dentro de la función (ya que pasas la dirección de memoria).
+
+Ejemplo de función que usa punteros:
+
+#include <stdio.h>
+
+void modificarValor(int *ptr) {
+    *ptr = 20;  // Modifica el valor al que apunta ptr
+}
+
+int main() {
+    int x = 10;
+    printf("Antes de modificar: %d\n", x);
+    modificarValor(&x);  // Pasa la dirección de x a la función
+    printf("Después de modificar: %d\n", x); // Imprime 20, ya que x fue modificado por la función
+
+    return 0;
+}
+
+Consideraciones importantes
+
+Punteros nulos: Un puntero puede estar "vacío" o "nulo", lo que significa que no apunta a ninguna dirección válida. Para inicializarlo como nulo, usamos NULL:
+
+int *ptr = NULL;
+
+Punteros y memoria dinámica: Cuando trabajas con memoria dinámica (por ejemplo, usando malloc o free), los punteros son cruciales para manejar esta memoria.
+
+
+Vamos a repasar las funciones de memoria dinámica en C: malloc(), realloc(), y free(), y cómo trabajar con ellas paso a paso.
+
+¿Por qué usar memoria dinámica?
+
+En C, cuando declaras una variable normalmente, la memoria se asigna en el stack (pila) y es liberada automáticamente cuando sale de su ámbito (por ejemplo, cuando la función termina). Sin embargo, hay situaciones donde necesitas asignar memoria durante la ejecución del programa (dinámicamente), como cuando no conoces de antemano el tamaño de una estructura o cuando necesitas crear estructuras que duren más tiempo.
+
+Para estas situaciones, usamos funciones de memoria dinámica como malloc(), calloc(), realloc(), y free().
+
+Funciones para gestionar memoria dinámica
+1. malloc() (Memory Allocation)
+
+malloc() se usa para asignar un bloque de memoria de tamaño especificado y devuelve un puntero al primer byte de esa memoria.
+
+Sintaxis:
+
+void *malloc(size_t size);
+
+Parámetro: size es el número de bytes de memoria que quieres reservar.
+
+Retorno: Devuelve un puntero al bloque de memoria asignado o NULL si la asignación falla.
+
+Ejemplo:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int *ptr;
+
+    // Asignar memoria para un solo entero
+    ptr = (int *)malloc(sizeof(int));  // Reservamos memoria para un int
+    if (ptr == NULL) {
+        printf("Error de asignación de memoria.\n");
+        return 1;  // Salir si no se pudo asignar memoria
+    }
+
+    *ptr = 10;  // Asignamos un valor a la memoria
+    printf("Valor de ptr: %d\n", *ptr);
+
+    free(ptr);  // Liberamos la memoria asignada
+    return 0;
+}
+
+Explicación:
+
+malloc(sizeof(int)) reserva memoria suficiente para almacenar un int (generalmente 4 bytes, dependiendo del sistema).
+
+ptr es un puntero que apunta al bloque de memoria reservado.
+
+Usamos free(ptr) al final para liberar la memoria.
+
+2. calloc() (Contiguous Allocation)
+
+calloc() se usa para asignar memoria para un bloque de elementos, y también inicializa esa memoria a cero.
+
+Sintaxis:
+
+void *calloc(size_t num_elements, size_t element_size);
+
+Parámetros:
+
+num_elements: El número de elementos que necesitas.
+
+element_size: El tamaño de cada elemento.
+
+Retorno: Devuelve un puntero al bloque de memoria asignado o NULL si la asignación falla.
+
+Ejemplo:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int *arr;
+    int n = 5;
+
+    // Asignar memoria para un array de 5 enteros
+    arr = (int *)calloc(n, sizeof(int));  // Reserva memoria para 5 enteros e inicializa a 0
+
+    if (arr == NULL) {
+        printf("Error de asignación de memoria.\n");
+        return 1;
+    }
+
+    // Imprimir los valores del array
+    for (int i = 0; i < n; i++) {
+        printf("arr[%d] = %d\n", i, arr[i]);  // Debería imprimir 0 para todos
+    }
+
+    free(arr);  // Liberamos la memoria
+    return 0;
+}
+
+Explicación:
+
+calloc(5, sizeof(int)) reserva memoria para 5 enteros, y cada elemento se inicializa a 0.
+
+Esto es útil cuando necesitas que toda la memoria sea inicializada a 0.
+
+3. realloc() (Reallocate Memory)
+
+realloc() se usa para cambiar el tamaño de un bloque de memoria previamente asignado con malloc() o calloc().
+
+Sintaxis:
+
+void *realloc(void *ptr, size_t new_size);
+
+Parámetros:
+
+ptr: El puntero al bloque de memoria que quieres redimensionar.
+
+new_size: El nuevo tamaño en bytes del bloque de memoria.
+
+Retorno: Devuelve un puntero al nuevo bloque de memoria (que puede estar en una nueva ubicación) o NULL si la reasignación falla.
+
+Ejemplo:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int *arr;
+    int n = 5;
+
+    // Asignar memoria para un array de 5 enteros
+    arr = (int *)malloc(n * sizeof(int));
+    if (arr == NULL) {
+        printf("Error de asignación de memoria.\n");
+        return 1;
+    }
+
+    // Asignar valores
+    for (int i = 0; i < n; i++) {
+        arr[i] = i + 1;
+    }
+
+    // Imprimir los valores originales
+    printf("Valores originales:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    // Redimensionar el array a 10 elementos
+    n = 10;
+    arr = (int *)realloc(arr, n * sizeof(int));  // Redimensionamos la memoria
+
+    // Verificar si realloc fue exitoso
+    if (arr == NULL) {
+        printf("Error al redimensionar memoria.\n");
+        return 1;
+    }
+
+    // Asignar nuevos valores
+    for (int i = 5; i < n; i++) {
+        arr[i] = i + 1;
+    }
+
+    // Imprimir los nuevos valores
+    printf("Valores después de realloc:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    free(arr);  // Liberamos la memoria
+    return 0;
+}
+
+Explicación:
+
+Usamos malloc() para asignar memoria inicialmente para 5 enteros.
+
+Luego usamos realloc() para redimensionar el bloque de memoria a 10 enteros.
+
+realloc() puede mover la memoria a una nueva ubicación, por lo que siempre es importante asignar el resultado de realloc() a un nuevo puntero, ya que podría fallar y devolver NULL.
+
+4. free() (Liberar memoria)
+
+free() se utiliza para liberar memoria que ha sido asignada dinámicamente. Después de llamar a free(), el puntero ya no es válido y no debe usarse.
+
+Sintaxis:
+
+void free(void *ptr);
+
+Parámetro:
+
+ptr: El puntero a la memoria que quieres liberar.
+
+Ejemplo:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int *ptr;
+
+    // Asignar memoria para un solo entero
+    ptr = (int *)malloc(sizeof(int)); 
+    if (ptr == NULL) {
+        printf("Error de asignación de memoria.\n");
+        return 1;
+    }
+
+    *ptr = 20;  // Asignamos un valor
+    printf("Valor de ptr: %d\n", *ptr);
+
+    free(ptr);  // Liberamos la memoria
+    ptr = NULL; // Después de liberar, ponemos el puntero a NULL para evitar usar memoria liberada
+
+    return 0;
+}
+
+Explicación:
+
+free(ptr) libera la memoria previamente asignada a ptr.
+
+Después de liberar la memoria, es una buena práctica poner el puntero a NULL para evitar errores de "acceso a memoria no válida".
+
+Resumen de las funciones:
+
+malloc(size_t size): Asigna un bloque de memoria de size bytes.
+
+calloc(size_t num, size_t size): Asigna memoria para num elementos de tamaño size y los inicializa a 0.
+
+realloc(void *ptr, size_t new_size): Cambia el tamaño de la memoria ya asignada.
+
+free(void *ptr): Libera un bloque de memoria previamente asignado.
+
+Consejos prácticos
+
+Verifica siempre si la asignación de memoria tuvo éxito. Si malloc(), calloc(), o realloc() retornan NULL, significa que no se pudo asignar la memoria.
+
+No uses memoria después de haberla liberado. Esto se conoce como "acceso a memoria después de liberar" y puede provocar errores muy difíciles de depurar.
+
+Poner punteros a NULL después de free() para evitar punteros colgantes.

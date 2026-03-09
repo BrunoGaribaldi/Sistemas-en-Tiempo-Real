@@ -1,0 +1,89 @@
+1. time_t t;
+time_t t;
+
+Qué hace: Declara una variable t de tipo time_t. El tipo time_t es un tipo de datos que se utiliza para almacenar el número de segundos desde la "época" (el 1 de enero de 1970 a las 00:00:00 UTC). En términos simples, es un número que representa el tiempo actual como la cantidad de segundos transcurridos desde esa fecha.
+
+¿Qué verías en la consola? Esta línea por sí sola no imprime nada, simplemente crea la variable para más adelante.
+
+2. struct tm *tm_info;
+struct tm *tm_info;
+
+Qué hace: Declara un puntero tm_info que apuntará a una estructura de tipo struct tm. La estructura tm es una estructura estándar de la biblioteca time.h que se utiliza para almacenar componentes desglosados del tiempo (hora, minuto, segundo, día, mes, año, etc.).
+
+Algunos campos de la estructura tm incluyen:
+
+tm_hour: Hora (de 0 a 23).
+
+tm_min: Minuto (de 0 a 59).
+
+tm_sec: Segundo (de 0 a 59).
+
+tm_mday: Día del mes (de 1 a 31).
+
+tm_mon: Mes (de 0 a 11, siendo 0 enero).
+
+tm_year: Año desde 1900.
+
+¿Qué verías en la consola? Nuevamente, esta línea no imprime nada, solo declara un puntero para almacenar la información desglosada de la fecha y hora.
+
+3. char buffer[9];
+char buffer[9];
+
+Qué hace: Declara un arreglo de caracteres buffer de tamaño 9. Este buffer se usará para almacenar la hora formateada como una cadena de texto (una secuencia de caracteres).
+
+¿Qué verías en la consola? Esta línea no imprime nada, solo prepara el espacio para guardar la hora formateada más adelante.
+
+4. time(&t);
+time(&t);
+
+Qué hace: Llama a la función time(), que obtiene el tiempo actual del sistema (la cantidad de segundos desde la "época") y lo guarda en la variable t.
+
+time() devuelve un valor de tipo time_t que representa el número de segundos desde el 1 de enero de 1970.
+
+¿Qué verías en la consola? Esta línea no imprime nada, pero está actualizando la variable t con el valor actual del tiempo.
+
+5. tm_info = localtime(&t);
+tm_info = localtime(&t);
+
+Qué hace: Llama a la función localtime() para convertir el valor de t (que es el tiempo actual en segundos desde la "época") a una estructura tm que contiene la fecha y hora desglosada.
+
+localtime() toma un puntero a un valor time_t y devuelve un puntero a una estructura tm que contiene los siguientes datos:
+
+tm_info->tm_hour: Hora actual.
+
+tm_info->tm_min: Minutos actuales.
+
+tm_info->tm_sec: Segundos actuales.
+
+tm_info->tm_mday: Día del mes actual.
+
+tm_info->tm_mon: Mes actual (0 para enero, 1 para febrero, etc.).
+
+tm_info->tm_year: Año actual desde 1900 (por ejemplo, 2022 sería 122).
+
+¿Qué verías en la consola? Esta línea no imprime nada, pero lo que hace es desglosar la hora y la fecha en componentes que puedes usar más adelante.
+
+6. strftime(buffer, sizeof(buffer), "%H:%M:%S", tm_info);
+strftime(buffer, sizeof(buffer), "%H:%M:%S", tm_info);
+
+Qué hace: Llama a la función strftime() para formatear la hora almacenada en tm_info y guardarla como una cadena de texto en buffer.
+
+strftime() toma los componentes de la estructura tm y los convierte en una cadena de texto con un formato que le indiques.
+
+"%H:%M:%S" es el formato en que queremos mostrar la hora:
+
+%H: Hora en formato de 24 horas (de 00 a 23).
+
+%M: Minutos (de 00 a 59).
+
+%S: Segundos (de 00 a 59).
+
+buffer: Es el lugar donde se almacenará la cadena resultante (por ejemplo, "14:05:30").
+
+sizeof(buffer): Especifica el tamaño máximo del buffer (en este caso, 9 caracteres, lo suficiente para almacenar "HH:MM:SS" más el carácter nulo de terminación).
+
+¿Qué verías en la consola? Esta línea no imprime nada, pero guarda la hora formateada (por ejemplo, "14:05:30") en el arreglo buffer.
+
+Salida esperada del programa
+
+Contenido de buffer: Después de ejecutar estas líneas, buffer contendrá la hora formateada como una cadena. Si es, por ejemplo, las 14 horas, 5 minutos y 30 segundos, buffer tendrá el valor "14:05:30".
