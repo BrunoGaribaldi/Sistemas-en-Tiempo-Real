@@ -1,0 +1,109 @@
+Variables y Definiciones:
+
+#define IN 1 y #define OUT 0:
+
+Se definen dos constantes, IN y OUT, para representar los dos estados en los que puede estar el programa:
+
+IN (valor 1): Significa que el programa está dentro de una palabra.
+
+OUT (valor 0): Significa que el programa está fuera de una palabra (es decir, en un espacio, salto de línea, tabulación, etc.).
+
+int c;:
+
+Esta variable almacena el carácter actual que se lee del teclado. Se usa dentro del bucle while para leer el texto carácter por carácter.
+
+int estado = OUT;:
+
+La variable estado mantiene el estado actual del programa, que puede ser IN o OUT. Inicialmente, está en el estado OUT, porque empezamos fuera de cualquier palabra.
+
+int palabras = 0;:
+
+Esta variable lleva el conteo de palabras encontradas en el texto. Empieza en 0 porque aún no hemos contado ninguna palabra.
+
+Descripción del Proceso:
+
+Entrada del texto:
+
+printf("Escribe un texto (presiona Ctrl+D --> Fin de Archivo (EOF)):\n");
+
+Se imprime un mensaje pidiendo al usuario que ingrese un texto. El programa leerá este texto hasta que el usuario presione Ctrl+D (en sistemas Unix/Linux) para indicar el fin de archivo (EOF).
+
+Bucle de lectura y procesamiento:
+
+while ((c = getchar()) != EOF)
+
+En este bucle, el programa lee un carácter a la vez con getchar(). Este carácter se almacena en la variable c. El bucle continúa hasta que se alcanza el final del archivo (EOF).
+
+getchar() devuelve un carácter cada vez que se lee. Al encontrar un espacio, salto de línea o tabulación, el estado cambia para indicar que estamos fuera de una palabra. Cuando encontramos una letra (es decir, un carácter que no es un espacio, salto de línea o tabulación), cambiamos el estado a IN, indicando que estamos dentro de una palabra.
+
+Condiciones para contar palabras:
+
+if (c == ' ' || c == '\n' || c == '\t') {
+    estado = OUT;
+} 
+else if (estado == OUT) {
+    estado = IN;
+    palabras++;
+}
+
+if (c == ' ' || c == '\n' || c == '\t'): Si el carácter actual es un espacio (' '), un salto de línea ('\n') o una tabulación ('\t'), el programa considera que estamos fuera de una palabra, por lo que el estado se establece a OUT.
+
+else if (estado == OUT): Si el carácter no es un espacio, salto de línea o tabulación, y estamos en el estado OUT (es decir, no estábamos dentro de una palabra), eso significa que hemos encontrado el inicio de una nueva palabra.
+
+estado = IN;: Cambia el estado a IN, porque ahora estamos dentro de una palabra.
+
+palabras++;: Incrementa el contador de palabras, ya que acabamos de detectar una nueva palabra.
+
+Fin del procesamiento y salida:
+
+printf("\nNumero total de palabras: %d\n", palabras);
+
+Una vez que el bucle termina (es decir, cuando se llega al fin del archivo), el programa imprime el número total de palabras que encontró en el texto.
+
+¿Cómo funciona el contador de palabras?
+
+El programa cuenta las palabras utilizando el estado de la variable estado:
+
+Está fuera de una palabra (estado OUT) cuando está en un espacio, salto de línea, o tabulación.
+
+Está dentro de una palabra (estado IN) cuando encuentra un carácter que no es un espacio, salto de línea ni tabulación.
+
+Cada vez que pasa de fuera de una palabra a dentro de una palabra (es decir, cuando encuentra el primer carácter de una palabra después de un espacio, salto de línea o tabulación), incrementa el contador palabras.
+
+Ejemplo de ejecución:
+
+Imagina que el usuario ingresa el siguiente texto:
+
+Hola mundo
+Este es un ejemplo.
+
+Explicación paso a paso:
+
+Estado inicial: OUT, palabras = 0.
+
+Lee H: Estado cambia a IN porque es una letra. Palabra 1.
+
+Lee o: Sigue en IN.
+
+Lee l: Sigue en IN.
+
+Lee a: Sigue en IN.
+
+Lee (espacio): Estado cambia a OUT.
+
+Lee m: Estado cambia a IN. Palabra 2.
+
+Lee u, n, d, o: Sigue en IN.
+
+Lee \n (salto de línea): Estado cambia a OUT.
+
+Lee E: Estado cambia a IN. Palabra 3.
+
+Y así sucesivamente...
+
+Al final, el programa imprimirá:
+
+Numero total de palabras: 5
+Resumen:
+
+Este contador de palabras funciona utilizando dos estados (IN y OUT) para determinar si está dentro de una palabra o fuera de ella. Cada vez que pasa de OUT a IN, el programa detecta el inicio de una nueva palabra y aumenta el contador. Esto se logra con una combinación de condiciones que verifican si el carácter actual es un delimitador (espacio, salto de línea o tabulación) o parte de una palabra.

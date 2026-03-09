@@ -1,0 +1,83 @@
+¿Qué es el Bubble Sort?
+
+Bubble Sort es un algoritmo de ordenamiento que se basa en comparar elementos adyacentes de una lista (o array) y cambiarlos de lugar si están en el orden incorrecto. Este proceso se repite hasta que no se requieren más intercambios, lo que indica que la lista está ordenada.
+
+¿Cómo funciona el algoritmo?
+
+Comparación de elementos adyacentes: El algoritmo comienza desde el principio de la lista y compara los dos primeros elementos. Si el primero es mayor que el segundo (en el caso de un orden ascendente), los intercambia.
+
+Repetición: Luego pasa a los siguientes elementos, compara e intercambia si es necesario, y continúa hasta el final de la lista.
+
+Pase completo: Cuando llega al final de la lista, el elemento más grande (en caso de orden ascendente) estará en la última posición (como si hubiera "flotado" hasta la parte superior, de ahí el nombre "Bubble Sort").
+
+Repetir los pasos anteriores: El proceso se repite varias veces, cada vez ignorando la última parte de la lista (porque ya está ordenada), hasta que no se realizan más intercambios.
+
+Visualización paso a paso
+
+Imagina que tenemos el siguiente array de números: [5, 2, 9, 1, 5, 6].
+
+Vamos a ordenar este array en orden ascendente utilizando Bubble Sort.
+
+Paso 1: Primer pase (de izquierda a derecha)
+
+Compara 5 y 2. Como 5 > 2, los intercambia. El array ahora es: [2, 5, 9, 1, 5, 6].
+
+Compara 5 y 9. Como 5 < 9, no hace nada.
+
+Compara 9 y 1. Como 9 > 1, los intercambia. El array ahora es: [2, 5, 1, 9, 5, 6].
+
+Compara 9 y 5. Como 9 > 5, los intercambia. El array ahora es: [2, 5, 1, 5, 9, 6].
+
+Compara 9 y 6. Como 9 > 6, los intercambia. El array ahora es: [2, 5, 1, 5, 6, 9].
+
+Después del primer pase, el número más grande, 9, ha "flotado" al final.
+
+Paso 2: Segundo pase (sin considerar el último elemento)
+
+Ahora, como ya sabemos que 9 está en su posición correcta, no lo consideramos en el siguiente pase.
+
+Compara 2 y 5. Como 2 < 5, no hace nada.
+
+Compara 5 y 1. Como 5 > 1, los intercambia. El array ahora es: [2, 1, 5, 5, 6, 9].
+
+Compara 5 y 5. Como son iguales, no hace nada.
+
+Compara 5 y 6. Como 5 < 6, no hace nada.
+
+Ahora el array es: [2, 1, 5, 5, 6, 9].
+
+Paso 3: Tercer pase (sin los dos últimos elementos)
+
+Repetimos el proceso, pero ya ignorando los dos últimos elementos (6 y 9).
+
+Compara 2 y 1. Como 2 > 1, los intercambia. El array ahora es: [1, 2, 5, 5, 6, 9].
+
+Compara 2 y 5. Como 2 < 5, no hace nada.
+
+Compara 5 y 5. Como son iguales, no hace nada.
+
+Ahora el array es: [1, 2, 5, 5, 6, 9].
+
+Paso 4: Cuarto pase (sin los tres últimos elementos)
+
+Ya sabemos que 5, 6, y 9 están en sus posiciones correctas, por lo que ya no los consideramos.
+
+Compara 1 y 2. Como 1 < 2, no hace nada.
+
+Compara 2 y 5. Como 2 < 5, no hace nada.
+
+Ahora el array es: [1, 2, 5, 5, 6, 9], y ya está completamente ordenado.
+
+Implementación del Bubble Sort en el código
+
+En tu código, el Bubble Sort funciona de la siguiente manera:
+
+Ciclo externo: Recorre el arreglo de arriba a abajo (for (int i = 0; i < n - 1; i++)), donde cada iteración representa un pase completo de comparación y posibles intercambios.
+
+Ciclo interno: Compara elementos adyacentes y los intercambia si están en el orden incorrecto. Esto se hace con el for (int j = 0; j < n - i - 1; j++), y la comparación se realiza con if (ascending ? (arr[j] > arr[j + 1]) : (arr[j] < arr[j + 1])). Aquí se utiliza el operador ternario para decidir si se debe ordenar ascendentemente o descendentemente.
+
+Optimización: Si en algún pase no se realizan intercambios (swapped = false), se rompe el ciclo y el algoritmo termina antes de tiempo. Esto es útil para arrays que ya están parcialmente ordenados.
+
+Resumen:
+
+El Bubble Sort es un algoritmo simple pero ineficiente (O(n²) en el peor de los casos) que ordena los elementos comparando e intercambiando elementos adyacentes. El proceso se repite hasta que no se requieren más intercambios, lo que indica que el array está completamente ordenado.
